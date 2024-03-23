@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from '@tailwindcss/typography';
 
 const config: Config = {
   content: [
@@ -9,16 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        header: '#ffffff', // White for the header background
-        footer: '#111827', // Dark gray for the footer background, you can adjust the colors as needed
+        header: '#ffffff',
+        footer: '#ffffff',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    typography({
+      modifiers: [],
+    }),
+  ],
 };
 export default config;

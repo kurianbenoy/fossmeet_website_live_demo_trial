@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
+import Slider from 'react-slick';
 
 const workshops = [
   {
@@ -36,6 +37,42 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [currentWorkshop]);
 
+  // Settings for the slider
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-white shadow flex justify-between items-center">
@@ -56,6 +93,11 @@ export default function Home() {
             <h1 className="text-4xl font-bold mb-4 text-orange-600">Welcome to FOSSMeet 2024</h1>
             <p className="text-xl mb-8">Join us for an exciting event celebrating open source software!</p>
             <Link href="/register" className="bg-orange-600 text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-orange-700 transition duration-300">Register Now</Link>
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold">Event Details</h2>
+              <p className="text-lg mt-2">📍 Location: NIT Calicut</p>
+              <p className="text-lg">📅 Dates: March 22, 23,24</p>
+            </div>
           </div>
           <div className="md:w-1/2">
             <Image
@@ -70,14 +112,15 @@ export default function Home() {
         <section className="py-12">
           <h2 className="text-3xl font-bold text-center mb-6">Workshops 📝</h2>
           <div className="container mx-auto">
-            <div className="text-center">
-              <h3 className="text-xl font-bold">{workshops[currentWorkshop].name}</h3>
-              <img src={workshops[currentWorkshop].image} alt={workshops[currentWorkshop].name} className="mx-auto" />
-              <p>{workshops[currentWorkshop].description}</p>
-              <h3 className="text-xl font-bold">{workshops[(currentWorkshop + 1) % workshops.length].name}</h3>
-              <img src={workshops[(currentWorkshop + 1) % workshops.length].image} alt={workshops[(currentWorkshop + 1) % workshops.length].name} className="mx-auto" />
-              <p>{workshops[(currentWorkshop + 1) % workshops.length].description}</p>
-            </div>
+            <Slider {...settings}>
+              {workshops.map((workshop, index) => (
+                <div key={index} className="text-center">
+                  <h3 className="text-xl font-bold">{workshop.name}</h3>
+                  <img src={workshop.image} alt={workshop.name} className="workshop-image mx-auto" />
+                  <p>{workshop.description}</p>
+                </div>
+              ))}
+            </Slider>
           </div>
         </section>
       </main>
